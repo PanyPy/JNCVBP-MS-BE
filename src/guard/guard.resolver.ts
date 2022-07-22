@@ -31,6 +31,16 @@ export class GuardResolver {
     return this.guardService.findOne(id);
   }
 
+  @Query(() => Guard, { nullable: true })
+  currentGuard() {
+    return this.guardService.findCurrent();
+  }
+
+  @Query(() => Guard, { nullable: true })
+  nextGuard() {
+    return this.guardService.findNext();
+  }
+
   @Mutation(() => Guard)
   updateGuard(@Args("updateGuardInput") updateGuardInput: UpdateGuardInput) {
     return this.guardService.update(updateGuardInput.id, updateGuardInput);

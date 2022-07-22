@@ -3,13 +3,12 @@ import { EventsService } from "./events.service";
 import { Event, EventModel } from "./entities/event.entity";
 import { CreateEventInput } from "./dto/create-event.input";
 import { UpdateEventInput } from "./dto/update-event.input";
-import { VolunteersService } from "../volunteers/volunteers.service";
-import { Volunteer, VolunteerModel } from "../volunteers/entities/volunteer.entity";
-import { Service } from "../services/entities/service.entity";
+import { User } from "../users/entities/user.entity";
+import { UsersService } from "../users/users.service";
 
 @Resolver(() => Event)
 export class EventsResolver {
-  constructor(private readonly eventsService: EventsService, private volunteerService: VolunteersService) {}
+  constructor(private readonly eventsService: EventsService, private usersService: UsersService) {}
 
   @Mutation(() => Event)
   createEvent(@Args("createEventInput") createEventInput: CreateEventInput) {
@@ -46,8 +45,8 @@ export class EventsResolver {
     return this.eventsService.restore(id);
   }
 
-  @ResolveField(() => Volunteer)
-  created_by(@Parent() event: EventModel): Promise<VolunteerModel | null> {
-    return this.volunteerService.findOne(event.created_by?._id?.toString());
+  @ResolveField(() => User)
+  created_by(@Parent() event: EventModel) {
+    return this.usersService.findOne(event.created_by?._id?.toString());
   }
 }

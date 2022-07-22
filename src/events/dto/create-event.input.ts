@@ -1,11 +1,11 @@
 import { InputType, Field } from "@nestjs/graphql";
-import { OnlyIdVolunteerInput } from "../../volunteers/dto/only-id-volunteer.input";
+import { OnlyIdUserInput } from "../../users/dto/only-id-user-input";
 
 @InputType()
 export class CreateEventInput {
   @Field()
   description: string;
 
-  @Field(() => OnlyIdVolunteerInput, { nullable: true })
-  created_by?: OnlyIdVolunteerInput;
+  @Field(() => OnlyIdUserInput, { nullable: true })
+  created_by?: OnlyIdUserInput;
 }

@@ -32,4 +32,20 @@ export class GuardService {
   restore(id: string) {
     return this.model.findOneAndUpdate({ _id: id }, { disabled: false });
   }
+
+  findCurrent() {
+    const currentTime = new Date();
+    return this.model.findOne().where({
+      $and: [{ start_time: { $lte: currentTime } }, { end_time: { $gte: currentTime } }, { disabled: false }],
+    });
+  }
+
+  findNext() {
+    const currentTime = new Date();
+    return this.model
+      .findOne()
+      .where({ $and: [{ start_time: { $gte: currentTime } }, { disabled: false }] })
+      .sort({ start_time: -1 })
+      .limit(1);
+  }
 }
